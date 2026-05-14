@@ -13,6 +13,13 @@
       <!-- ── Title ── -->
       <h1 class="widget-title">Wordle Hints</h1>
 
+      <!-- ── Too Many Possibilities Warning ── -->
+      <% if (matchingWords.length > 100) { %>
+        <div class="warning-box">
+          <p>There are too many possibilities, try getting more information</p>
+        </div>
+      <% } %>
+
       <!-- ── Guess Information ── -->
       <div class="hint-section">
         <h2>Your Guess: <span class="guess-word"><%= guess %></span></h2>
