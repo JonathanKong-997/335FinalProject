@@ -2,37 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wordle Hint</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="wordle-widget">
-      <div>
-        <p class="wordle-widget__label">Your Guess</p>
-        <p class="wordle-widget__sublabel">Click a tile to change its color</p>
-      </div>
-      <div class="guess-row">
-        <div class="tile">G</div>
-        <div class="tile">U</div>
-        <div class="tile">E</div>
-        <div class="tile">S</div>
-        <div class="tile">S</div>
-      </div>
-      <div class="legend">
-        <div class="legend__item">
-          <span class="legend__dot legend__dot--grey"></span> Not in word
-        </div>
-        <div class="legend__item">
-          <span class="legend__dot legend__dot--yellow"></span> Wrong spot
-        </div>
-        <div class="legend__item">
-          <span class="legend__dot legend__dot--green"></span> Correct
-        </div>
-      </div>
-      <div class="btn-row">
-        <a href="/hint" class="btn btn--submit">Submit Guess</a>
-        <a href="/history" class="btn btn--history">History</a>
-      </div>
-    </div>
+
+    <!-- The form is built by index.js -->
+    <div id="guess-form-container"></div>
 
     <script src="index.js"></script>
   </body>
