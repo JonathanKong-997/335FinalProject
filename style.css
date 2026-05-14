@@ -1,0 +1,231 @@
+/* =========================================
+   Wordle Hint Widget — CSS
+   Google Font: "Instrument Serif" + "DM Mono"
+   ========================================= */
+ 
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap');
+ 
+/* ── Variables ── */
+:root {
+  --bg:             #faf8f4;
+  --bg-panel:       #ffffff;
+  --border:         #e2ddd6;
+ 
+  --color-text:     #1a1814;
+  --color-muted:    #9a9590;
+  --color-accent:   #2c2c2c;
+ 
+  --tile-empty-bg:  #ffffff;
+  --tile-empty-border: #d0cbc3;
+ 
+  --grey:           #787c7e;   /* absent */
+  --yellow:         #c9b458;   /* present */
+  --green:          #6aaa64;   /* correct */
+ 
+  --btn-submit-bg:  #1a1814;
+  --btn-submit-fg:  #faf8f4;
+  --btn-history-bg: transparent;
+  --btn-history-fg: #1a1814;
+ 
+  --font-serif: 'Instrument Serif', serif;
+  --font-mono:  'DM Mono', monospace;
+ 
+  --fs-xs:   0.7rem;
+  --fs-sm:   0.85rem;
+  --fs-base: 1rem;
+  --fs-lg:   1.5rem;
+ 
+  --tile-size: 52px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+ 
+/* ── Widget Container ── */
+.wordle-widget {
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: fit-content;
+  font-family: var(--font-mono);
+}
+ 
+/* ── Widget Label ── */
+.wordle-widget__label {
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  font-style: italic;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+ 
+.wordle-widget__sublabel {
+  font-size: var(--fs-xs);
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 0.2rem;
+}
+ 
+/* ── 5-Tile Row ── */
+.guess-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+ 
+/* ── Individual Tile ── */
+.tile {
+  width: var(--tile-size);
+  height: var(--tile-size);
+  background-color: var(--tile-empty-bg);
+  border: 2px solid var(--tile-empty-border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  color: var(--color-text);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.15s var(--ease), background-color 0.2s var(--ease),
+              color 0.2s var(--ease), transform 0.1s var(--ease);
+  user-select: none;
+  position: relative;
+}
+ 
+/* Tile states — click to cycle through grey → yellow → green */
+.tile:hover {
+  border-color: var(--color-muted);
+}
+ 
+.tile:active {
+  transform: scale(0.92);
+}
+ 
+.tile.grey {
+  background-color: var(--grey);
+  border-color: var(--grey);
+  color: #ffffff;
+  font-size: var(--fs-sm);
+}
+ 
+.tile.yellow {
+  background-color: var(--yellow);
+  border-color: var(--yellow);
+  color: #ffffff;
+}
+ 
+.tile.green {
+  background-color: var(--green);
+  border-color: var(--green);
+  color: #ffffff;
+}
+ 
+/* Pop animation when letter is entered */
+.tile.pop {
+  animation: tile-pop 0.12s var(--ease);
+}
+ 
+/* ── Color Legend ── */
+.legend {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+ 
+.legend__item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--fs-xs);
+  color: var(--color-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+ 
+.legend__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+ 
+.legend__dot--grey   { background-color: var(--grey); }
+.legend__dot--yellow { background-color: var(--yellow); }
+.legend__dot--green  { background-color: var(--green); }
+ 
+/* ── Nav Links (styled as buttons, navigate to other pages) ── */
+.btn-row {
+  display: flex;
+  gap: 0.6rem;
+}
+ 
+/* Base — applies to both <a> nav links */
+.btn {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  padding: 0.55rem 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  transition: background-color 0.15s var(--ease), color 0.15s var(--ease),
+              transform 0.1s var(--ease), opacity 0.15s var(--ease);
+}
+ 
+.btn:active {
+  transform: scale(0.96);
+}
+ 
+/* Submit — goes to the hint/results page */
+.btn--submit {
+  background-color: var(--btn-submit-bg);
+  color: var(--btn-submit-fg);
+  border-color: var(--btn-submit-bg);
+  flex: 1;
+}
+ 
+.btn--submit:hover {
+  opacity: 0.85;
+}
+ 
+/* History — goes to the guess history page */
+.btn--history {
+  background-color: var(--btn-history-bg);
+  color: var(--btn-history-fg);
+  border-color: var(--border);
+}
+ 
+.btn--history:hover {
+  background-color: var(--bg);
+}
+ 
+/* ── Animations ── */
+@keyframes tile-pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+ 
+/* ── Responsive ── */
+@media (max-width: 420px) {
+  :root {
+    --tile-size: 44px;
+    --fs-lg: 1.2rem;
+  }
+ 
+  .wordle-widget {
+    padding: 1.1rem;
+  }
+}
