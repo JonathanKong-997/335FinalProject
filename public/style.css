@@ -1,0 +1,229 @@
+/* =========================================
+   Wordle Hint Widget — style.css
+   Google Fonts: "Bebas Neue" + "IBM Plex Mono"
+   Dark theme, bold typographic feel
+   ========================================= */
+
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+
+/* ── Variables ── */
+:root {
+  --bg: #111111;
+  --bg-card: #1c1c1c;
+  --bg-input: #242424;
+  --border: #333333;
+
+  --text: #f2f2f2;
+  --text-muted: #666666;
+
+  --wrong: #3a3a3c;
+  --inplace: #b59f3b;
+  --correct: #538d4e;
+
+  --accent: #ffffff;
+
+  --font-display: "Bebas Neue", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  --fs-xs: 0.7rem;
+  --fs-sm: 0.85rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.4rem;
+  --fs-xl: 3rem;
+
+  --radius: 6px;
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Page ── */
+html,
+body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Container ── */
+#guess-form-container {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Title ── */
+.widget-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  color: var(--text);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.widget-subtitle {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 0.3rem;
+}
+
+/* ── Form ── */
+.guess-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ── Tile Grid: 5 columns side by side ── */
+.tile-grid {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+/* ── Each column: letter on top, dropdown below ── */
+.tile-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+  border-top: 3px solid transparent;
+  padding-top: 0.5rem;
+  border-radius: var(--radius);
+  transition: border-color 0.2s var(--ease);
+}
+
+/* Column accent by status */
+.tile-col[data-status="wrong"] {
+  border-top-color: var(--wrong);
+}
+.tile-col[data-status="inplace"] {
+  border-top-color: var(--inplace);
+}
+.tile-col[data-status="correct"] {
+  border-top-color: var(--correct);
+}
+
+/* ── Letter Input ── */
+.letter-input {
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  text-align: center;
+  text-transform: uppercase;
+  outline: none;
+  transition: border-color 0.15s var(--ease);
+  caret-color: transparent;
+}
+
+.letter-input:focus {
+  border-color: var(--accent);
+}
+
+/* ── Status Dropdown ── */
+.status-select {
+  width: 100%;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  padding: 0.4rem 0.3rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  text-align: center;
+  transition: border-color 0.15s var(--ease);
+}
+
+.status-select:focus {
+  border-color: var(--accent);
+}
+
+/* ── Button Row ── */
+.btn-row {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+/* ── Buttons ── */
+.btn {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: var(--radius);
+  padding: 0.65rem 1.2rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    opacity 0.15s var(--ease),
+    background-color 0.15s var(--ease),
+    transform 0.1s var(--ease);
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+.btn-submit {
+  background-color: var(--text);
+  color: var(--bg);
+  flex: 1;
+}
+
+.btn-submit:hover {
+  opacity: 0.85;
+}
+
+.btn-history {
+  background-color: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-history:hover {
+  background-color: var(--bg-input);
+}
+
+/* ── Responsive ── */
+@media (max-width: 420px) {
+  #guess-form-container {
+    padding: 1.75rem 1.25rem;
+  }
+  .widget-title {
+    font-size: 2.4rem;
+  }
+}

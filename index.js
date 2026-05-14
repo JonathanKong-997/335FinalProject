@@ -1,36 +1,30 @@
 // =========================================
 //  Wordle Hint Widget — index.js
-//  Handles behaviour only (HTML lives in index.html):
-//    1. Letter input — replace current letter, advance on filled box
-//    2. Dropdown — update column accent color on change
+//  Express server setup
 // =========================================
 
-const form    = document.querySelector('.guess-form');
-const inputs  = form.querySelectorAll('.letter-input');
-const selects = form.querySelectorAll('.status-select');
+const express = require("express");
+const path = require("path");
+const app = express();
+const router = require("./route.js");
 
-// ── Letter inputs ──
-inputs.forEach((input, i) => {
-  input.addEventListener('keydown', (e) => {
-    if (/^[a-zA-Z]$/.test(e.key)) {
-      e.preventDefault(); // stop browser from appending
-      const wasEmpty = input.value === '';
-      input.value = e.key.toUpperCase(); // always replace current letter
-      // Advance to next box only if this one was already filled
-      if (!wasEmpty && i < inputs.length - 1) {
-        inputs[i + 1].focus();
-      }
-    } else if (e.key === 'Backspace') {
-      input.value = '';
-    }
-  });
-});
+const PORT = process.env.PORT || 3000;
 
-// ── Dropdowns — update column accent color on change ──
-selects.forEach((select) => {
-  const col = select.closest('.tile-col');
+// Set up view engine for EJS templates
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "templates"));
 
-  const updateColor = () => { col.dataset.status = select.value; };
-  select.addEventListener('change', updateColor);
-  updateColor(); // set initial color on load
+// Serve static files (CSS, client-side JavaScript, etc.)
+app.use(express.static(path.join(__dirname, "public")));
+
+// Parse incoming request bodies
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Routes
+app.use("/", router);
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
