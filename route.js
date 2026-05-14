@@ -19,10 +19,6 @@ const validWords = new Set(
     .filter((word) => word.length === 5),
 );
 
-// Load CSS once at startup
-const cssPath = path.join(__dirname, "public", "style.css");
-const css = fs.readFileSync(cssPath, "utf-8");
-
 router.get("/", (req, res) => {
   res.render("index");
 });
@@ -97,12 +93,11 @@ router.get("/hint", async (req, res) => {
       return true;
     });
 
-    res.json({
+    res.render("hints", {
       success: true,
       guess: guess,
       definition: definition,
       matchingWords: matchingWords,
-      css: css,
     });
   } catch (error) {
     console.error("Error processing hint:", error);
