@@ -1,152 +1,68 @@
 // =========================================
 //  Wordle Hint Widget — index.js
-//  Responsibilities:
-//    1. Render default letters "G" "U" "E" "S" "S" on load
-//    2. Allow typing into tiles, auto-advancing focus
-//    3. Cycle tile colors on click (empty → grey → yellow → green → empty)
-//    4. Encode the current guess + colors into the Submit and History link URLs
+//  Builds a plain form with 5 letter/status pairs.
+//  On submit, navigates to /hint with the form data.
+//  History button navigates to /history.
 // =========================================
 
-const COLOR_CYCLE = ["", "grey", "yellow", "green"];
-const DEFAULT_WORD = ["G", "U", "E", "S", "S"];
+const DEFAULT_WORD = ['G', 'U', 'E', 'S', 'S'];
+const NUM_LETTERS  = 5;
 
-const express = require("express");
-const path = require("path");
-const bodyParser = require("body-parser");
-const portNumber = 5001;
-const app = express();
-app.set("view engine", "ejs");
-app.set("views", path.resolve(__dirname, "templates"));
-app.use(bodyParser.urlencoded({ extended: false }));
-// ── Grab DOM elements ──
-const tiles = document.querySelectorAll(".guess-row .tile");
-const submitLink = document.querySelector(".btn--submit");
-const historyLink = document.querySelector(".btn--history");
+// ── Build the form dynamically ──
+const container = document.getElementById('guess-form-container');
 
-// ── Set up tiles ──
-tiles.forEach((tile, index) => {
-  // Make tiles focusable
-  tile.setAttribute("tabindex", "0");
+const form = document.createElement('form');
+form.method = 'GET';
+form.action = '/hint';
 
-  // ── Keyboard input ──
-  tile.addEventListener("keydown", (e) => {
-    if (/^[a-zA-Z]$/.test(e.key)) {
-      // Type a letter into this tile
-      setLetter(tile, e.key.toUpperCase());
-      triggerPop(tile);
-      focusTile(index + 1); // advance to next tile
-      updateLinks();
-    } else if (e.key === "Backspace") {
-      if (getLetter(tile)) {
-        // Clear current tile
-        setLetter(tile, "");
-      } else {
-        // Already empty — step back and clear previous
-        const prev = index - 1;
-        if (prev >= 0) {
-          setLetter(tiles[prev], "");
-          focusTile(prev);
-        }
-      }
-      updateLinks();
-    }
+// One row per letter: [text input] [dropdown]
+for (let i = 0; i < NUM_LETTERS; i++) {
+  const row = document.createElement('div');
+
+  // Letter text input — single character, defaults to DEFAULT_WORD[i]
+  const letterInput = document.createElement('input');
+  letterInput.type      = 'text';
+  letterInput.name      = `letter${i}`;
+  letterInput.maxLength = 1;
+  letterInput.value     = DEFAULT_WORD[i];
+
+  // Enforce single letter on input
+  letterInput.addEventListener('input', () => {
+    letterInput.value = letterInput.value.replace(/[^a-zA-Z]/g, '').toUpperCase().slice(0, 1);
   });
 
-  // ── Click to cycle color ──
-  tile.addEventListener("click", () => {
-    const current = COLOR_CYCLE.indexOf(getCurrentColor(tile));
-    const next = (current + 1) % COLOR_CYCLE.length;
+  // Status dropdown: wrong / in place / correct
+  const statusSelect = document.createElement('select');
+  statusSelect.name = `status${i}`;
 
-    tile.classList.remove("grey", "yellow", "green");
-    if (COLOR_CYCLE[next]) tile.classList.add(COLOR_CYCLE[next]);
+  const options = [
+    { value: 'wrong',    label: 'Wrong' },
+    { value: 'inplace',  label: 'In Place' },
+    { value: 'correct',  label: 'Correct' },
+  ];
 
-    triggerPop(tile);
-    updateLinks();
+  options.forEach(({ value, label }) => {
+    const opt = document.createElement('option');
+    opt.value       = value;
+    opt.textContent = label;
+    statusSelect.appendChild(opt);
   });
-});
 
-// ── Default letters "G" "U" "E" "S" "S" ──
-tiles.forEach((tile, i) => setLetter(tile, DEFAULT_WORD[i]));
-updateLinks();
-
-// ── Helpers ──
-
-/**
- * Sets the visible letter inside a tile.
- * @param {HTMLElement} tile
- * @param {string} letter - single uppercase letter, or '' to clear
- */
-function setLetter(tile, letter) {
-  tile.textContent = letter;
+  row.appendChild(letterInput);
+  row.appendChild(statusSelect);
+  form.appendChild(row);
 }
 
-/**
- * Gets the current letter from a tile.
- * @param {HTMLElement} tile
- * @returns {string}
- */
-function getLetter(tile) {
-  return tile.textContent.trim();
-}
+// Submit button — submits the form to /hint
+const submitBtn = document.createElement('button');
+submitBtn.type        = 'submit';
+submitBtn.textContent = 'Submit Guess';
+form.appendChild(submitBtn);
 
-/**
- * Moves focus to a tile by index. Clamps to valid range.
- * @param {number} index
- */
-function focusTile(index) {
-  const clamped = Math.min(Math.max(index, 0), tiles.length - 1);
-  tiles[clamped].focus();
-}
+container.appendChild(form);
 
-/**
- * Returns the current color class of a tile, or '' if none.
- * @param {HTMLElement} tile
- * @returns {string}
- */
-function getCurrentColor(tile) {
-  for (const color of COLOR_CYCLE) {
-    if (color && tile.classList.contains(color)) return color;
-  }
-  return "";
-}
-
-/**
- * Triggers the pop animation on a tile.
- * @param {HTMLElement} tile
- */
-function triggerPop(tile) {
-  tile.classList.remove("pop");
-  void tile.offsetWidth; // reflow to restart animation
-  tile.classList.add("pop");
-  tile.addEventListener("animationend", () => tile.classList.remove("pop"), {
-    once: true,
-  });
-}
-
-/**
- * Reads the current state of all 5 tiles.
- * @returns {{ letter: string, color: string }[]}
- */
-function getGuessState() {
-  return Array.from(tiles).map((tile) => ({
-    letter: getLetter(tile),
-    color: getCurrentColor(tile),
-  }));
-}
-
-/**
- * Encodes the guess state as URL query params and updates both nav links.
- * Format: ?guess=APPLE&colors=grey,yellow,green,empty,green
- */
-function updateLinks() {
-  const state = getGuessState();
-  const letters = state.map((s) => s.letter).join("");
-  const colors = state.map((s) => s.color || "empty").join(",");
-
-  const params = new URLSearchParams({ guess: letters, colors });
-
-  if (submitLink) submitLink.href = `/hint?${params}`;
-  if (historyLink) historyLink.href = `/history?${params}`;
-}
-
-app.listen(portNumber);
+// History button — plain link to /history
+const historyLink = document.createElement('a');
+historyLink.href        = '/history';
+historyLink.textContent = 'View History';
+container.appendChild(historyLink);
