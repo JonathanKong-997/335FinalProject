@@ -65,8 +65,9 @@ router.get("/hint", async (req, res) => {
           // Letter must be in the word but NOT in this position
           if (!word.includes(letter) || word[i] === letter) return false;
         } else if (status === "wrong") {
-          // Letter must not be in the word at all
-          if (word.includes(letter)) return false;
+          // Letter must not be in the word at all (UNLESS it's marked as correct elsewhere)
+          const isCorrectElsewhere = statuses.some((s, idx) => s === "correct" && letters[idx] === letter);
+          if (word.includes(letter) && !isCorrectElsewhere) return false;
         }
       }
       return true;
