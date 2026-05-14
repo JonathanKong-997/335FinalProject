@@ -55,6 +55,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1rem;
 }
 
 /* ── Container ── */
@@ -68,6 +69,21 @@ body {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+}
+
+/* ── Hints Container ── */
+#hints-container {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
 /* ── Title ── */
@@ -218,12 +234,144 @@ body {
   background-color: var(--bg-input);
 }
 
+.btn-back {
+  background-color: transparent;
+  color: var(--text);
+  border-color: var(--border);
+  flex: 1;
+}
+
+.btn-back:hover {
+  background-color: var(--bg-input);
+}
+
+/* ── Hints Page Styling ── */
+
+/* Warning Box */
+.warning-box {
+  background-color: rgba(181, 159, 59, 0.1);
+  border-left: 4px solid var(--inplace);
+  padding: 1rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: var(--fs-sm);
+  color: var(--inplace);
+}
+
+/* Hint Section */
+.hint-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.hint-section h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 0.04em;
+}
+
+.hint-section h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.guess-word {
+  color: var(--correct);
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+}
+
+/* Definition Box */
+.definition-box {
+  background-color: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.definition-box h3 {
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.definition-box p {
+  color: var(--text);
+  line-height: 1.6;
+  font-size: var(--fs-md);
+}
+
+/* Words List */
+.words-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.word-chip {
+  background-color: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--text);
+  transition: all 0.15s var(--ease);
+}
+
+.word-chip:hover {
+  border-color: var(--accent);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* No Results Message */
+.no-results {
+  color: var(--text-muted);
+  font-style: italic;
+  padding: 1rem;
+  text-align: center;
+}
+
 /* ── Responsive ── */
 @media (max-width: 420px) {
   #guess-form-container {
     padding: 1.75rem 1.25rem;
   }
+  
+  #hints-container {
+    padding: 1.75rem 1.25rem;
+    max-width: 100%;
+  }
+  
   .widget-title {
     font-size: 2.4rem;
+  }
+  
+  .hint-section h2 {
+    font-size: 1.6rem;
+  }
+  
+  .hint-section h3 {
+    font-size: 1.1rem;
+  }
+  
+  .guess-word {
+    font-size: 1.8rem;
+  }
+  
+  .words-list {
+    gap: 0.4rem;
+  }
+  
+  .word-chip {
+    padding: 0.4rem 0.8rem;
+    font-size: var(--fs-xs);
   }
 }
