@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wordle Hints</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="client.js" defer></script>
+  </head>
+  <body>
+
+    <div id="hints-container">
+      <!-- ── Title ── -->
+      <h1 class="widget-title">Wordle Hints</h1>
+
+      <!-- ── Guess Information ── -->
+      <div class="hint-section">
+        <h2>Your Guess: <span class="guess-word"><%= guess %></span></h2>
+        
+        <!-- ── Definition ── -->
+        <div class="definition-box">
+          <h3>Definition</h3>
+          <p><%= definition %></p>
+        </div>
+      </div>
+
+      <!-- ── Matching Words ── -->
+      <div class="hint-section">
+        <h3>Matching Words (<%= matchingWords.length %>)</h3>
+        <% if (matchingWords.length > 0) { %>
+          <div class="words-list">
+            <% matchingWords.forEach(word => { %>
+              <span class="word-chip"><%= word %></span>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <p class="no-results">No matching words found. Try adjusting your clues.</p>
+        <% } %>
+      </div>
+
+      <!-- ── Navigation ── -->
+      <div class="btn-row">
+        <a href="/" class="btn btn-back">Back to Game</a>
+      </div>
+    </div>
+
+  </body>
+</html>
