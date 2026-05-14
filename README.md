@@ -1,18 +1,16 @@
 # 335FinalProject
 
-Submitted by:
+Submitted by: Justin Yang (jyang139)
 
-Group Members: Jonathan Kong (jkong997) 
+Group Members: Jonathan Kong (jkong997) Justin Yang (jyang139)
 
-Submitted by: Rose Smith (superterp)
+App Description: A wordle hint app that based on a given word and the letter placements, uses Free Dictionary API to provide definitions and give hints to what words are possible accordingly. It also displays history of all guesses made.
 
-App Description: A wordle hint app that based on a given word and the letter placements, uses dictionary API to provide definitions and give hints to what words are possible accordingly.
+YouTube Video Link: [https://youtu.be/4xMCZUxzW70](https://youtu.be/4xMCZUxzW70)
 
-YouTube Video Link: [A link](https://markdowntohtml.com)
+APIs: Free Dictionary, [https://dictionaryapi.dev/](https://dictionaryapi.dev/)
 
-APIs: [A link](https://markdowntohtml.com)
-
-Contact Email:
+Contact Email: jyang139@terpmail.umd.edu
 
 Deployed App Link: [https://three35finalproject-sxq8.onrender.com](https://three35finalproject-sxq8.onrender.com)
 
