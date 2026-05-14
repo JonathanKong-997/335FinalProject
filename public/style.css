@@ -344,32 +344,32 @@ body {
   #guess-form-container {
     padding: 1.75rem 1.25rem;
   }
-  
+
   #hints-container {
     padding: 1.75rem 1.25rem;
     max-width: 100%;
   }
-  
+
   .widget-title {
     font-size: 2.4rem;
   }
-  
+
   .hint-section h2 {
     font-size: 1.6rem;
   }
-  
+
   .hint-section h3 {
     font-size: 1.1rem;
   }
-  
+
   .guess-word {
     font-size: 1.8rem;
   }
-  
+
   .words-list {
     gap: 0.4rem;
   }
-  
+
   .word-chip {
     padding: 0.4rem 0.8rem;
     font-size: var(--fs-xs);
@@ -414,69 +414,58 @@ body {
 }
 
 .words-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  overflow-x: auto;
 }
 
-.word-card {
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
   background-color: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.word-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+.history-table thead {
+  background-color: #007bff;
+  color: white;
 }
 
-.word-card h2 {
-  margin: 0 0 10px 0;
+.history-table th {
+  padding: 15px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.history-table tbody tr {
+  border-bottom: 1px solid #ddd;
+  transition: background-color 0.2s;
+}
+
+.history-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.history-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.history-table td {
+  padding: 15px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.history-table td:first-child {
+  font-weight: bold;
   color: #007bff;
-  font-size: 24px;
+  min-width: 100px;
 }
 
-.pos-section {
-  margin-bottom: 15px;
-}
-
-.pos-label {
-  font-weight: bold;
-  color: #555;
-  margin-bottom: 5px;
-}
-
-.pos-list {
-  list-style-position: inside;
-  padding: 0;
-  margin: 5px 0;
+.history-table td:last-child {
   color: #666;
-}
-
-.pos-list li {
-  margin: 3px 0;
-  padding-left: 10px;
-}
-
-.definition-label {
-  font-weight: bold;
-  color: #555;
-  margin-bottom: 5px;
-}
-
-.definition-list {
-  list-style-position: inside;
-  padding: 0;
-  margin: 5px 0;
-  color: #666;
-}
-
-.definition-list li {
-  margin: 3px 0;
-  padding-left: 10px;
-  line-height: 1.4;
 }
 
 .empty-message {

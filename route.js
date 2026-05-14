@@ -27,10 +27,52 @@ router.get("/history", async (req, res) => {
   try {
     await mongoose.connect(process.env.MONGO_CONNECTION_STRING);
     const words = await Word.find({});
-    res.render("history", { words });
+
+    // Generate HTML table
+    let tableHTML = "";
+    if (words && words.length > 0) {
+      tableHTML = `
+        <div class="words-container">
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Word</th>
+                <th>Definition</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${words
+                .map(
+                  (item) => `
+              <tr>
+                <td>${item.word}</td>
+                <td>${item.definition}</td>
+              </tr>
+            `,
+                )
+                .join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+    } else {
+      tableHTML = `
+        <div class="empty-message">
+          <p>No words in history yet. Start searching to build your history!</p>
+        </div>
+      `;
+    }
+
+    res.render("history", { tableHTML });
   } catch (error) {
     console.error("Error fetching word history:", error);
-    res.status(500).render("history", { words: [] });
+    res.status(500).render("history", {
+      tableHTML: `
+        <div class="empty-message">
+          <p>Error loading history. Please try again.</p>
+        </div>
+      `,
+    });
   }
 });
 
@@ -68,6 +110,27 @@ router.get("/hint", async (req, res) => {
       if (defData[0]?.meanings[0]?.definitions[0]?.definition) {
         definition = defData[0].meanings[0].definitions[0].definition;
       }
+    }
+
+    // Save word and definition to MongoDB (prevent duplicates)
+    try {
+      await mongoose.connect(process.env.MONGO_CONNECTION_STRING);
+      // Check if word already exists (case-insensitive)
+      const existingWord = await Word.findOne({
+        word: { $regex: `^${guess}$`, $options: "i" },
+      });
+      if (!existingWord) {
+        const newWord = new Word({
+          word: guess,
+          definition: definition,
+        });
+        await newWord.save();
+        console.log(`Saved word "${guess}" to database`);
+      } else {
+        console.log(`Word "${guess}" already exists in database`);
+      }
+    } catch (dbError) {
+      console.error("Error saving word to database:", dbError);
     }
 
     // Filter valid words based on Wordle rules
