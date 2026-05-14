@@ -18,27 +18,13 @@
           <% words.forEach(word => { %>
             <div class="word-card">
               <h2><%= word.word %></h2>
-              
-              <% if (word.meanings && word.meanings.length > 0) { %>
-                <% word.meanings.forEach(meaning => { %>
-                  <div class="pos-section">
-                    <div class="pos-label"><%= meaning.partOfSpeech %></div>
-                    <% if (meaning.definitions && meaning.definitions.length > 0) { %>
-                      <div class="definition-label">Definitions</div>
-                      <ul class="definition-list">
-                        <% meaning.definitions.forEach(def => { %>
-                          <li><%= def.definition %></li>
-                        <% }); %>
-                      </ul>
-                    <% } %>
-                  </div>
-                <% }); %>
-              <% } %>
+              <div class="definition-label">Definition</div>
+              <p><%= word.definition %></p>
             </div>
           <% }); %>
         <% } else { %>
           <div class="empty-message">
-            <p>No words in history yet. Start playing to build your history!</p>
+            <p>No words in history yet. Start searching to build your history!</p>
           </div>
         <% } %>
       </div>
