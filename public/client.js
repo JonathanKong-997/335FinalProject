@@ -21,7 +21,15 @@ inputs.forEach((input, i) => {
         inputs[i + 1].focus();
       }
     } else if (e.key === "Backspace") {
-      input.value = "";
+      e.preventDefault();
+      if (input.value !== "") {
+        // If current input has a value, clear it
+        input.value = "";
+      } else if (i > 0) {
+        // If current input is empty, go to previous input and clear it
+        inputs[i - 1].value = "";
+        inputs[i - 1].focus();
+      }
     }
   });
 });
