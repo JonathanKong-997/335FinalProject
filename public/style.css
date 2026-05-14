@@ -339,6 +339,185 @@ body {
   text-align: center;
 }
 
+/* =========================================
+   Word History Page Styles
+   ========================================= */
+
+/* History page body override */
+body.history-page {
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 2rem 1rem;
+  min-height: 100vh;
+}
+
+/* History container */
+.history-container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+.header h1 {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  color: var(--text);
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.back-link {
+  background-color: var(--bg-input);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.65rem 1.2rem;
+  text-decoration: none;
+  border-radius: var(--radius);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.15s var(--ease);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.back-link:hover {
+  background-color: var(--border);
+  border-color: var(--accent);
+}
+
+/* Words container with scroll */
+.words-container {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Scrollbar styling */
+.words-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.words-container::-webkit-scrollbar-track {
+  background-color: var(--bg-input);
+  border-radius: var(--radius);
+}
+
+.words-container::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 4px;
+  transition: background-color 0.15s var(--ease);
+}
+
+.words-container::-webkit-scrollbar-thumb:hover {
+  background-color: var(--accent);
+}
+
+/* Firefox scrollbar */
+.words-container {
+  scrollbar-color: var(--border) var(--bg-input);
+  scrollbar-width: thin;
+}
+
+/* Word Card */
+.word-card {
+  background-color: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.2rem;
+  transition: all 0.15s var(--ease);
+}
+
+.word-card:hover {
+  border-color: var(--accent);
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.word-card h2 {
+  margin: 0 0 1rem 0;
+  color: var(--correct);
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  letter-spacing: 0.04em;
+}
+
+.pos-section {
+  margin-bottom: 1rem;
+}
+
+.pos-label {
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.pos-list {
+  list-style-position: inside;
+  padding: 0;
+  margin: 0;
+  color: var(--text);
+}
+
+.pos-list li {
+  margin: 0.3rem 0;
+  padding-left: 1.2rem;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+}
+
+.definition-label {
+  font-family: var(--font-display);
+  font-size: var(--fs-sm);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.05em;
+}
+
+.definition-list {
+  list-style-position: inside;
+  padding: 0;
+  margin: 0;
+  color: var(--text);
+}
+
+.definition-list li {
+  margin: 0.3rem 0;
+  padding-left: 1.2rem;
+  line-height: 1.6;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+}
+
+.empty-message {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
 /* ── Responsive ── */
 @media (max-width: 420px) {
   #guess-form-container {
@@ -374,104 +553,40 @@ body {
     padding: 0.4rem 0.8rem;
     font-size: var(--fs-xs);
   }
-}
 
-/* =========================================
-   Word History Page Styles
-   ========================================= */
+  /* History page responsive */
+  body.history-page {
+    padding: 1rem;
+  }
 
-/* History page body override */
-.history-page {
-  font-family: Arial, sans-serif;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f5f5f5;
-}
+  .history-container {
+    gap: 1rem;
+  }
 
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-}
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
 
-.history-page h1 {
-  color: #333;
-}
+  .header h1 {
+    font-size: 1.8rem;
+  }
 
-.back-link {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-}
+  .back-link {
+    width: 100%;
+    text-align: center;
+  }
 
-.back-link:hover {
-  background-color: #0056b3;
-}
+  .words-container {
+    padding: 1rem;
+    gap: 1rem;
+  }
 
-.words-container {
-  overflow-x: auto;
-}
+  .word-card {
+    padding: 1rem;
+  }
 
-.history-table {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.history-table thead {
-  background-color: #007bff;
-  color: white;
-}
-
-.history-table th {
-  padding: 15px;
-  text-align: left;
-  font-weight: bold;
-  font-size: 16px;
-  letter-spacing: 0.5px;
-}
-
-.history-table tbody tr {
-  border-bottom: 1px solid #ddd;
-  transition: background-color 0.2s;
-}
-
-.history-table tbody tr:hover {
-  background-color: #f9f9f9;
-}
-
-.history-table tbody tr:last-child {
-  border-bottom: none;
-}
-
-.history-table td {
-  padding: 15px;
-  color: #333;
-  line-height: 1.5;
-}
-
-.history-table td:first-child {
-  font-weight: bold;
-  color: #007bff;
-  min-width: 100px;
-}
-
-.history-table td:last-child {
-  color: #666;
-}
-
-.empty-message {
-  text-align: center;
-  padding: 40px;
-  background-color: white;
-  border-radius: 8px;
-  color: #999;
+  .word-card h2 {
+    font-size: 1.4rem;
+  }
 }
