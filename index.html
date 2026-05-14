@@ -8,8 +8,73 @@
   </head>
   <body>
 
-    <!-- The form is built by index.js -->
-    <div id="guess-form-container"></div>
+    <div id="guess-form-container">
+
+      <!-- ── Title ── -->
+      <h1 class="widget-title">Wordle Helper</h1>
+      <p class="widget-subtitle">Enter your guess and mark each letter</p>
+
+      <!-- ── Form ── -->
+      <form class="guess-form" method="GET" action="/hint">
+
+        <!-- ── 5 columns: letter input on top, dropdown below ── -->
+        <div class="tile-grid">
+
+          <div class="tile-col" data-status="wrong">
+            <input class="letter-input" type="text" name="letter0" maxlength="1" value="G" />
+            <select class="status-select" name="status0">
+              <option value="wrong">Wrong</option>
+              <option value="inplace">In Place</option>
+              <option value="correct">Correct</option>
+            </select>
+          </div>
+
+          <div class="tile-col" data-status="wrong">
+            <input class="letter-input" type="text" name="letter1" maxlength="1" value="U" />
+            <select class="status-select" name="status1">
+              <option value="wrong">Wrong</option>
+              <option value="inplace">In Place</option>
+              <option value="correct">Correct</option>
+            </select>
+          </div>
+
+          <div class="tile-col" data-status="wrong">
+            <input class="letter-input" type="text" name="letter2" maxlength="1" value="E" />
+            <select class="status-select" name="status2">
+              <option value="wrong">Wrong</option>
+              <option value="inplace">In Place</option>
+              <option value="correct">Correct</option>
+            </select>
+          </div>
+
+          <div class="tile-col" data-status="wrong">
+            <input class="letter-input" type="text" name="letter3" maxlength="1" value="S" />
+            <select class="status-select" name="status3">
+              <option value="wrong">Wrong</option>
+              <option value="inplace">In Place</option>
+              <option value="correct">Correct</option>
+            </select>
+          </div>
+
+          <div class="tile-col" data-status="wrong">
+            <input class="letter-input" type="text" name="letter4" maxlength="1" value="S" />
+            <select class="status-select" name="status4">
+              <option value="wrong">Wrong</option>
+              <option value="inplace">In Place</option>
+              <option value="correct">Correct</option>
+            </select>
+          </div>
+
+        </div>
+
+        <!-- ── Buttons ── -->
+        <div class="btn-row">
+          <button type="submit" class="btn btn-submit">Get Hint</button>
+          <a href="/history" class="btn btn-history">History</a>
+        </div>
+
+      </form>
+    </div>
 
     <script src="index.js"></script>
   </body>
