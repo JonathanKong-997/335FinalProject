@@ -1,1 +1,48 @@
 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word History</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="history-page">
+    <div class="header">
+      <h1>Word History</h1>
+      <a href="/" class="back-link">Back to Home</a>
+    </div>
+
+    <% if (words && words.length > 0) { %>
+      <div class="words-container">
+        <% words.forEach(item => { %>
+          <div class="word-card">
+            <h2><%= item.word %></h2>
+            
+            <div class="pos-section">
+              <div class="pos-label">Part of Speech:</div>
+              <ul class="pos-list">
+                <% item.pos.forEach(part => { %>
+                  <li><%= part %></li>
+                <% }); %>
+              </ul>
+            </div>
+            
+            <div>
+              <div class="definition-label">Definitions:</div>
+              <ul class="definition-list">
+                <% item.definition.forEach(def => { %>
+                  <li><%= def %></li>
+                <% }); %>
+              </ul>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <div class="empty-message">
+        <p>No words in history yet. Start searching to build your history!</p>
+      </div>
+    <% } %>
+  </body>
+</html>

@@ -1,19 +1,37 @@
 const express = require("express");
 const router = express.Router();
-const fs = require("fs");
 const path = require("path");
+const fs = require("fs");
+
+require("dotenv").config({
+  path: path.resolve(__dirname, ".env"),
+});
+const mongoose = require("mongoose");
+const Word = require("./model/Word");
 
 // Load valid Wordle words once at startup
 const validWordsPath = path.join(__dirname, "valid-wordle-words.txt");
 const validWords = new Set(
-  fs.readFileSync(validWordsPath, "utf-8")
+  fs
+    .readFileSync(validWordsPath, "utf-8")
     .split("\n")
-    .map(word => word.trim().toUpperCase())
-    .filter(word => word.length === 5)
+    .map((word) => word.trim().toUpperCase())
+    .filter((word) => word.length === 5),
 );
 
 router.get("/", (req, res) => {
   res.render("index");
+});
+
+router.get("/history", async (req, res) => {
+  try {
+    await mongoose.connect(process.env.MONGO_CONNECTION_STRING);
+    const words = await Word.find({});
+    res.render("history", { words });
+  } catch (error) {
+    console.error("Error fetching word history:", error);
+    res.status(500).render("history", { words: [] });
+  }
 });
 
 // New route to handle guess submission
@@ -35,13 +53,13 @@ router.get("/hint", async (req, res) => {
     if (guess.length !== 5 || !validWords.has(guess)) {
       return res.status(400).json({
         error: "Invalid word",
-        message: `"${guess}" is not a valid Wordle word. Please enter a 5-letter word from the word list.`
+        message: `"${guess}" is not a valid Wordle word. Please enter a 5-letter word from the word list.`,
       });
     }
 
     // Fetch definition from Free Dictionary API
     const definitionResponse = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${guess.toLowerCase()}`
+      `https://api.dictionaryapi.dev/api/v2/entries/en/${guess.toLowerCase()}`,
     );
 
     let definition = "No definition found";
@@ -53,7 +71,7 @@ router.get("/hint", async (req, res) => {
     }
 
     // Filter valid words based on Wordle rules
-    const matchingWords = Array.from(validWords).filter(word => {
+    const matchingWords = Array.from(validWords).filter((word) => {
       for (let i = 0; i < 5; i++) {
         const status = statuses[i];
         const letter = letters[i];
@@ -66,7 +84,9 @@ router.get("/hint", async (req, res) => {
           if (!word.includes(letter) || word[i] === letter) return false;
         } else if (status === "wrong") {
           // Letter must not be in the word at all (UNLESS it's marked as correct elsewhere)
-          const isCorrectElsewhere = statuses.some((s, idx) => s === "correct" && letters[idx] === letter);
+          const isCorrectElsewhere = statuses.some(
+            (s, idx) => s === "correct" && letters[idx] === letter,
+          );
           if (word.includes(letter) && !isCorrectElsewhere) return false;
         }
       }
@@ -77,13 +97,13 @@ router.get("/hint", async (req, res) => {
       success: true,
       guess: guess,
       definition: definition,
-      matchingWords: matchingWords.slice(0, 50) // Return first 50 matches
+      matchingWords: matchingWords.slice(0, 50), // Return first 50 matches
     });
   } catch (error) {
     console.error("Error processing hint:", error);
     res.status(500).json({
       error: "Server error",
-      message: "An error occurred while processing your request."
+      message: "An error occurred while processing your request.",
     });
   }
 });
