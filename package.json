@@ -1,0 +1,27 @@
+{
+  "name": "335finalproject",
+  "version": "1.0.0",
+  "description": "cmsc335 final projecrt",
+  "homepage": "https://github.com/JonathanKong-997/335FinalProject#readme",
+  "bugs": {
+    "url": "https://github.com/JonathanKong-997/335FinalProject/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JonathanKong-997/335FinalProject.git"
+  },
+  "license": "ISC",
+  "author": "jy, jk",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "i": "^0.3.7",
+    "mongodb": "^7.2.0",
+    "mongoose": "^9.6.2",
+    "npm": "^11.14.1"
+  }
+}
