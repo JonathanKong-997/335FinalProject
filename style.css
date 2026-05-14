@@ -1,231 +1,223 @@
 /* =========================================
-   Wordle Hint Widget — CSS
-   Google Font: "Instrument Serif" + "DM Mono"
+   Wordle Hint Widget — style.css
+   Google Fonts: "Bebas Neue" + "IBM Plex Mono"
+   Dark theme, bold typographic feel
    ========================================= */
- 
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap');
- 
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
 /* ── Variables ── */
 :root {
-  --bg:             #faf8f4;
-  --bg-panel:       #ffffff;
-  --border:         #e2ddd6;
- 
-  --color-text:     #1a1814;
-  --color-muted:    #9a9590;
-  --color-accent:   #2c2c2c;
- 
-  --tile-empty-bg:  #ffffff;
-  --tile-empty-border: #d0cbc3;
- 
-  --grey:           #787c7e;   /* absent */
-  --yellow:         #c9b458;   /* present */
-  --green:          #6aaa64;   /* correct */
- 
-  --btn-submit-bg:  #1a1814;
-  --btn-submit-fg:  #faf8f4;
-  --btn-history-bg: transparent;
-  --btn-history-fg: #1a1814;
- 
-  --font-serif: 'Instrument Serif', serif;
-  --font-mono:  'DM Mono', monospace;
- 
-  --fs-xs:   0.7rem;
-  --fs-sm:   0.85rem;
-  --fs-base: 1rem;
-  --fs-lg:   1.5rem;
- 
-  --tile-size: 52px;
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --bg:          #111111;
+  --bg-card:     #1c1c1c;
+  --bg-input:    #242424;
+  --border:      #333333;
+
+  --text:        #f2f2f2;
+  --text-muted:  #666666;
+
+  --wrong:       #3a3a3c;
+  --inplace:     #b59f3b;
+  --correct:     #538d4e;
+
+  --accent:      #ffffff;
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-mono:    'IBM Plex Mono', monospace;
+
+  --fs-xs:  0.7rem;
+  --fs-sm:  0.85rem;
+  --fs-md:  1rem;
+  --fs-lg:  1.4rem;
+  --fs-xl:  3rem;
+
+  --radius: 6px;
+  --ease:   cubic-bezier(0.4, 0, 0.2, 1);
 }
- 
-/* ── Widget Container ── */
-.wordle-widget {
-  background-color: var(--bg-panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  width: fit-content;
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Page ── */
+html, body {
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
   font-family: var(--font-mono);
-}
- 
-/* ── Widget Label ── */
-.wordle-widget__label {
-  font-family: var(--font-serif);
-  font-size: var(--fs-lg);
-  font-style: italic;
-  color: var(--color-text);
-  letter-spacing: -0.01em;
-}
- 
-.wordle-widget__sublabel {
-  font-size: var(--fs-xs);
-  color: var(--color-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-top: 0.2rem;
-}
- 
-/* ── 5-Tile Row ── */
-.guess-row {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
- 
-/* ── Individual Tile ── */
-.tile {
-  width: var(--tile-size);
-  height: var(--tile-size);
-  background-color: var(--tile-empty-bg);
-  border: 2px solid var(--tile-empty-border);
-  border-radius: var(--radius-sm);
+  font-size: var(--fs-md);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-mono);
-  font-size: var(--fs-lg);
-  font-weight: 500;
-  color: var(--color-text);
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: border-color 0.15s var(--ease), background-color 0.2s var(--ease),
-              color 0.2s var(--ease), transform 0.1s var(--ease);
-  user-select: none;
-  position: relative;
 }
- 
-/* Tile states — click to cycle through grey → yellow → green */
-.tile:hover {
-  border-color: var(--color-muted);
-}
- 
-.tile:active {
-  transform: scale(0.92);
-}
- 
-.tile.grey {
-  background-color: var(--grey);
-  border-color: var(--grey);
-  color: #ffffff;
-  font-size: var(--fs-sm);
-}
- 
-.tile.yellow {
-  background-color: var(--yellow);
-  border-color: var(--yellow);
-  color: #ffffff;
-}
- 
-.tile.green {
-  background-color: var(--green);
-  border-color: var(--green);
-  color: #ffffff;
-}
- 
-/* Pop animation when letter is entered */
-.tile.pop {
-  animation: tile-pop 0.12s var(--ease);
-}
- 
-/* ── Color Legend ── */
-.legend {
+
+/* ── Container ── */
+#guess-form-container {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 380px;
   display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Title ── */
+.widget-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-xl);
+  color: var(--text);
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.widget-subtitle {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-top: 0.3rem;
+}
+
+/* ── Form ── */
+.guess-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ── Column Headers ── */
+.form-header {
+  display: grid;
+  grid-template-columns: 1.5rem 3rem 1fr;
+  gap: 0.75rem;
+  padding: 0 0.25rem 0.25rem;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid var(--border);
+}
+
+.form-header span:first-child {
+  grid-column: 2;
+}
+
+/* ── Form Row ── */
+.form-row {
+  display: grid;
+  grid-template-columns: 1.5rem 3rem 1fr;
   gap: 0.75rem;
   align-items: center;
+  padding: 0.4rem 0.25rem;
+  border-radius: var(--radius);
+  border-left: 3px solid transparent;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease);
 }
- 
-.legend__item {
-  display: flex;
-  align-items: center;
-  gap: 0.35rem;
+
+/* Row accent by status */
+.form-row[data-status="wrong"]   { border-left-color: var(--wrong); }
+.form-row[data-status="inplace"] { border-left-color: var(--inplace); }
+.form-row[data-status="correct"] { border-left-color: var(--correct); }
+
+/* ── Letter Number Label ── */
+.letter-label {
   font-size: var(--fs-xs);
-  color: var(--color-muted);
-  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ── Letter Input ── */
+.letter-input {
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  text-align: center;
   text-transform: uppercase;
+  outline: none;
+  transition: border-color 0.15s var(--ease);
+  caret-color: transparent;
 }
- 
-.legend__dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 2px;
-  flex-shrink: 0;
+
+.letter-input:focus {
+  border-color: var(--accent);
 }
- 
-.legend__dot--grey   { background-color: var(--grey); }
-.legend__dot--yellow { background-color: var(--yellow); }
-.legend__dot--green  { background-color: var(--green); }
- 
-/* ── Nav Links (styled as buttons, navigate to other pages) ── */
+
+/* ── Status Dropdown ── */
+.status-select {
+  width: 100%;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  padding: 0.5rem 0.6rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23666' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+  transition: border-color 0.15s var(--ease);
+}
+
+.status-select:focus {
+  border-color: var(--accent);
+}
+
+/* ── Button Row ── */
 .btn-row {
   display: flex;
   gap: 0.6rem;
+  margin-top: 0.5rem;
 }
- 
-/* Base — applies to both <a> nav links */
+
+/* ── Buttons ── */
 .btn {
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
-  border-radius: var(--radius-sm);
-  padding: 0.55rem 1.1rem;
+  border-radius: var(--radius);
+  padding: 0.65rem 1.2rem;
+  cursor: pointer;
+  border: 1px solid transparent;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid transparent;
-  transition: background-color 0.15s var(--ease), color 0.15s var(--ease),
-              transform 0.1s var(--ease), opacity 0.15s var(--ease);
+  transition: opacity 0.15s var(--ease), background-color 0.15s var(--ease),
+              transform 0.1s var(--ease);
 }
- 
-.btn:active {
-  transform: scale(0.96);
-}
- 
-/* Submit — goes to the hint/results page */
-.btn--submit {
-  background-color: var(--btn-submit-bg);
-  color: var(--btn-submit-fg);
-  border-color: var(--btn-submit-bg);
+
+.btn:active { transform: scale(0.96); }
+
+.btn-submit {
+  background-color: var(--text);
+  color: var(--bg);
   flex: 1;
 }
- 
-.btn--submit:hover {
-  opacity: 0.85;
-}
- 
-/* History — goes to the guess history page */
-.btn--history {
-  background-color: var(--btn-history-bg);
-  color: var(--btn-history-fg);
+
+.btn-submit:hover { opacity: 0.85; }
+
+.btn-history {
+  background-color: transparent;
+  color: var(--text);
   border-color: var(--border);
 }
- 
-.btn--history:hover {
-  background-color: var(--bg);
-}
- 
-/* ── Animations ── */
-@keyframes tile-pop {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.15); }
-  100% { transform: scale(1); }
-}
- 
+
+.btn-history:hover { background-color: var(--bg-input); }
+
 /* ── Responsive ── */
 @media (max-width: 420px) {
-  :root {
-    --tile-size: 44px;
-    --fs-lg: 1.2rem;
-  }
- 
-  .wordle-widget {
-    padding: 1.1rem;
-  }
+  #guess-form-container { padding: 1.75rem 1.25rem; }
+  .widget-title { font-size: 2.4rem; }
 }
